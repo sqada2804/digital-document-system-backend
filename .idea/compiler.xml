@@ -9,15 +9,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="auth-service-api" />
       </profile>
-      <profile name="Annotation profile for common-library" enabled="true">
+      <profile name="Annotation profile for users-service-api" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="common-library" />
         <module name="users-service-api" />
+        <module name="common-library" />
       </profile>
     </annotationProcessing>
   </component>
