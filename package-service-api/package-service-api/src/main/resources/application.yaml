@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: package-service-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/digital-document-delivery-system
+    username: postgres
+    password: $eQuE$aDa4002
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8084
+jwt:
+  secret: XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  swagger-ui:
+    url: /v1/api-docs
+    path: /swagger-ui.html

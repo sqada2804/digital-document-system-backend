@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.example.auth_service_api.repository")
 @EntityScan(basePackages = "com.example.common_library.entity")
 public class AuthServiceApiApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApiApplication.class, args);
 	}
-
 }
