@@ -25,7 +25,5 @@ public class PackageModel {
 
     private String receiverEmail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserModel userId;
+    private String userId;
 }

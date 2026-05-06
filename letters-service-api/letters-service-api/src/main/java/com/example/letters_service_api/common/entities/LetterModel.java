@@ -1,4 +1,4 @@
-package com.example.letters_service_api.entities;
+package com.example.letters_service_api.common.entities;
 
 import com.example.common_library.entity.UserModel;
 import jakarta.persistence.*;

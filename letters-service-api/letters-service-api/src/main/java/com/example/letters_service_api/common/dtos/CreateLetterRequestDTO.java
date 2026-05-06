@@ -1,4 +1,4 @@
-package com.example.package_service_api.common.dtos;
+package com.example.letters_service_api.common.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,13 +9,17 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class CreatePackageRequestDTO {
+public class CreateLetterRequestDTO {
     @NotNull
     private String address;
+
     @NotNull
-    private String content;
+    private String subject;
+
     @NotNull
-    private Double weight;
+    private String body;
+
     @NotNull
     private String receiverEmail;
+
 }
