@@ -3,12 +3,16 @@ package com.example.package_service_api.service.Implementation;
 import com.example.package_service_api.common.dtos.CreatePackageRequestDTO;
 import com.example.package_service_api.common.dtos.UpdatePackageRequestDTO;
 import com.example.package_service_api.common.entities.PackageModel;
+import com.example.package_service_api.common.exceptions.NotFoundException;
 import com.example.package_service_api.common.exceptions.UnauthorizedException;
 import com.example.package_service_api.repository.IPackageRepository;
 import com.example.package_service_api.service.Interfaces.IPackageService;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PackageService implements IPackageService {
 
     private final IPackageRepository packageRepository;
@@ -43,17 +47,31 @@ public class PackageService implements IPackageService {
     }
 
     @Override
-    public PackageModel getAllPackages(String userId) {
-        return null;
+    public List<PackageModel> getAllPackages(String userId) {
+        return packageRepository.findAllByUserId(userId);
     }
 
     @Override
-    public void UpdatePackage(UpdatePackageRequestDTO packageDTO, String userId, Long trackingNumber) {
+    public void UpdatePackage(UpdatePackageRequestDTO letterDTO, String userId, Long trackingNumber) {
+        packageRepository.findPackageByUserIdAndTrackingNumber(userId, trackingNumber)
+                .map(packageExists -> updatePackageFields(packageExists, letterDTO))
+                .map(packageRepository::save)
+                .orElseThrow(() -> new NotFoundException("Package wasn't found to update"));
+    }
 
+    private PackageModel updatePackageFields(PackageModel packageExists, UpdatePackageRequestDTO packageDTO) {
+        packageExists.setAddress(packageDTO.getAddress());
+        packageExists.setContent(packageDTO.getContent());
+        packageExists.setWeight(packageDTO.getWeight());
+        packageExists.setReceiverEmail(packageDTO.getReceiverEmail());
+        return packageExists;
     }
 
     @Override
     public void deletePackage(String userId, Long trackingNumber) {
-
+        packageRepository.findPackageByUserIdAndTrackingNumber(userId, trackingNumber)
+                .ifPresentOrElse(packageRepository::delete, () -> {
+                    throw new NotFoundException("Package wasn't found to delete");
+                });
     }
 }

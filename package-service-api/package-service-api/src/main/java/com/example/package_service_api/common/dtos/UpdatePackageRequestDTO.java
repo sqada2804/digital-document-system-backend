@@ -15,7 +15,7 @@ public class UpdatePackageRequestDTO {
     @NotNull
     private String content;
     @NotNull
-    private String weight;
+    private Double weight;
     @NotNull
     private String receiverEmail;
 }

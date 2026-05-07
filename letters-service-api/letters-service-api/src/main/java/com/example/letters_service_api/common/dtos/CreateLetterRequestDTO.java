@@ -21,5 +21,4 @@ public class CreateLetterRequestDTO {
 
     @NotNull
     private String receiverEmail;
-
 }
