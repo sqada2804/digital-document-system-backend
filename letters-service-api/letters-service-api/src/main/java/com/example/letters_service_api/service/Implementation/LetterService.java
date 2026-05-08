@@ -52,7 +52,7 @@ public class LetterService implements ILetterService {
     }
 
     @Override
-    public void UpdateLetter(UpdateLetterRequestDTO letterDTO, String userId, Long trackingNumber) {
+    public void updateLetter(UpdateLetterRequestDTO letterDTO, String userId, Long trackingNumber) {
         letterRepository.findLetterByUserIdAndTrackingNumber(userId, trackingNumber)
                 .map(letterExists -> updateLetterFields(letterExists, letterDTO))
                 .map(letterRepository::save)

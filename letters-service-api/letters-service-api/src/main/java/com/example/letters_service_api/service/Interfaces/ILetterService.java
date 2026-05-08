@@ -10,6 +10,6 @@ public interface ILetterService {
     LetterModel createLetter(CreateLetterRequestDTO packageDTO, String userId);
     LetterModel getLetterById(String userId, Long trackingNumber);
     List<LetterModel> getAllLetters(String userId);
-    void UpdateLetter(UpdateLetterRequestDTO packageDTO, String userId, Long trackingNumber);
+    void updateLetter(UpdateLetterRequestDTO packageDTO, String userId, Long trackingNumber);
     void deleteLetter(String userId, Long trackingNumber);
 }
