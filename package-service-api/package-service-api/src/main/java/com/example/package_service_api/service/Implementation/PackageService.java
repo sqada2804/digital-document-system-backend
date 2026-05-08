@@ -27,7 +27,6 @@ public class PackageService implements IPackageService {
                 .map(packages -> mapToEntity(packages, userId))
                 .map(packageRepository::save)
                 .orElseThrow(() -> new UnauthorizedException("Unauthorized to create a package"));
-
     }
 
     private PackageModel mapToEntity(CreatePackageRequestDTO packagesDTO, String userId) {

@@ -35,6 +35,7 @@ public class LetterService implements ILetterService {
                 .body(letterDTO.getBody())
                 .subject(letterDTO.getSubject())
                 .receiverEmail(letterDTO.getReceiverEmail())
+                .userId(userId)
                 .build();
     }
 
