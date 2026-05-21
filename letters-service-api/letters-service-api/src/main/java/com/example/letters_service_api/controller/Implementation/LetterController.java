@@ -6,9 +6,11 @@ import com.example.letters_service_api.common.entities.LetterModel;
 import com.example.letters_service_api.controller.Interfaces.ILetterController;
 import com.example.letters_service_api.service.Interfaces.ILetterService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class LetterController implements ILetterController {
 
     private final ILetterService letterService;
