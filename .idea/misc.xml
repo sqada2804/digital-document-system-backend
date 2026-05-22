@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/common-library/common-library/pom.xml" />
         <option value="$PROJECT_DIR$/letters-service-api/letters-service-api/pom.xml" />
         <option value="$PROJECT_DIR$/package-service-api/package-service-api/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway/api-gateway/pom.xml" />
       </list>
     </option>
   </component>
