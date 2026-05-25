@@ -12,7 +12,7 @@ public class SecurityConfig {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(corsSpec -> {})
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/v1/auth/**").permitAll()
+                        .pathMatchers("/v1/auth/**", "/v1/auth").permitAll()
                         .anyExchange().authenticated());
         return http.build();
     }

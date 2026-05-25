@@ -1,10 +1,12 @@
 package com.example.auth_service_api.service.Implementation;
 
+import com.example.auth_service_api.dtos.LoginRequest;
 import com.example.auth_service_api.dtos.TokenResponse;
 import com.example.auth_service_api.dtos.UserRequest;
 import com.example.auth_service_api.repository.IUserRepository;
 import com.example.auth_service_api.service.IAuthService;
 import com.example.common_library.entity.UserModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,10 +16,12 @@ public class AuthService implements IAuthService {
 
     private final IUserRepository userRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(IUserRepository userRepository, JwtService jwtService) {
+    public AuthService(IUserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,10 +33,20 @@ public class AuthService implements IAuthService {
                 .orElseThrow(() -> new RuntimeException("Error creating user"));
     }
 
+    @Override
+    public TokenResponse loginUser(LoginRequest loginRequest) {
+        return Optional.of(loginRequest.getEmail())
+                .map(userRepository::findByEmail)
+                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword()))
+                .map(user -> jwtService.generateToken(user.get().getUserId()))
+                .orElseThrow(() -> new RuntimeException("Error trying to login user"))
+                ;
+    }
+
     private UserModel mapToEntity(UserRequest userRequest) {
         return UserModel.builder()
                 .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .username(userRequest.getUsername())
                 .role("USER")
                 .build();

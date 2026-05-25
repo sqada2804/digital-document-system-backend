@@ -12,7 +12,7 @@ public class JwtUtils {
 
     private final SecretKey secretKey;
 
-    public JwtUtils(SecretKey secretKey) {
+    public JwtUtils() {
         String secret = "XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew";
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }

@@ -1,6 +1,7 @@
 package com.example.auth_service_api.controller;
 
 import com.example.auth_service_api.constants.ApiPathConstants;
+import com.example.auth_service_api.dtos.LoginRequest;
 import com.example.auth_service_api.dtos.TokenResponse;
 import com.example.auth_service_api.dtos.UserRequest;
 import jakarta.validation.Valid;
@@ -15,4 +16,7 @@ public interface IAuthController {
     ResponseEntity<TokenResponse> createUser(
             @RequestBody @Valid UserRequest userRequest
     );
+
+    @PostMapping(value = "/login")
+    ResponseEntity<TokenResponse> loginUser(@RequestBody @Valid LoginRequest loginRequest);
 }
