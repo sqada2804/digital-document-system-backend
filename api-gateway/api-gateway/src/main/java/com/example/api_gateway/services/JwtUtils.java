@@ -14,7 +14,14 @@ public class JwtUtils {
     private final SecretKey secretKey;
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
-        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("jwt.secret must be configured as a Base64-encoded value");
+        }
+        try {
+            this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException("jwt.secret must be a valid Base64-encoded value", exception);
+        }
     }
 
     public Claims getClaims(String token){

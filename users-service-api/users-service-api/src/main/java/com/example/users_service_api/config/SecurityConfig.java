@@ -29,7 +29,15 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder(@Value("${jwt.secret}") String secret) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("jwt.secret must be configured as a Base64-encoded value");
+        }
+        SecretKey secretKey;
+        try {
+            secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException("jwt.secret must be a valid Base64-encoded value", exception);
+        }
         return NimbusJwtDecoder.withSecretKey(secretKey)
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
