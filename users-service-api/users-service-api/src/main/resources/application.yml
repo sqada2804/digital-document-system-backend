@@ -15,4 +15,4 @@ springdoc:
     url: /v1/api-docs
     path: /swagger-ui.html
 jwt:
-  secret: XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew
+  secret: ${JWT_SECRET}
