@@ -37,21 +37,18 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }
 
-                String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-
-                if(authHeader != null && authHeader.startsWith("Bearer ")){
-                    authHeader = authHeader.substring(7);
-                } else {
+                String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+                if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }
 
-                String token = authHeader.substring(7);
+                String token = authorizationHeader.substring(7);
 
                 if (jwtUtils.isExpired(token)){
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }
 
-                Integer userId = jwtUtils.extractUserId(authHeader);
+                Integer userId = jwtUtils.extractUserId(token);
                 if(userId == null){
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }

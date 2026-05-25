@@ -1,10 +1,11 @@
 package com.example.api_gateway.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
@@ -12,9 +13,15 @@ public class JwtUtils {
 
     private final SecretKey secretKey;
 
-    public JwtUtils() {
-        String secret = "XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew";
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    public JwtUtils(@Value("${jwt.secret}") String secret) {
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("jwt.secret must be configured");
+        }
+        try {
+            this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException("jwt.secret must be a valid Base64-encoded value", exception);
+        }
     }
 
     public Claims getClaims(String token){
