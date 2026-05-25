@@ -15,7 +15,7 @@ public class JwtUtils {
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
         if (secret == null || secret.isBlank()) {
-            throw new IllegalStateException("jwt.secret must be configured as a Base64-encoded value");
+            throw new IllegalStateException("jwt.secret must be configured");
         }
         try {
             this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));

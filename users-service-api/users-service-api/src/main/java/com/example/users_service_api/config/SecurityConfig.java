@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder(@Value("${jwt.secret}") String secret) {
         if (secret == null || secret.isBlank()) {
-            throw new IllegalStateException("jwt.secret must be configured as a Base64-encoded value");
+            throw new IllegalStateException("jwt.secret must be configured");
         }
         SecretKey secretKey;
         try {
