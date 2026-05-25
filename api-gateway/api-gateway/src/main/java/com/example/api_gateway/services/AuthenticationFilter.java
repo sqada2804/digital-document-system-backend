@@ -45,13 +45,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }
 
-                String token = authHeader.substring(7);
+                String token = authHeader;
 
                 if (jwtUtils.isExpired(token)){
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }
 
-                Integer userId = jwtUtils.extractUserId(authHeader);
+                Integer userId = jwtUtils.extractUserId(token);
                 if(userId == null){
                     return onError(exchange, HttpStatus.UNAUTHORIZED);
                 }

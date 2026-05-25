@@ -35,3 +35,5 @@ spring:
       enabled: true
 server:
   port: 8081
+jwt:
+  secret: XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew
