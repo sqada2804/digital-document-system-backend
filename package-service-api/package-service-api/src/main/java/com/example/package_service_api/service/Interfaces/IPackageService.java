@@ -7,9 +7,9 @@ import com.example.package_service_api.common.entities.PackageModel;
 import java.util.List;
 
 public interface IPackageService {
-    PackageModel createPackage(CreatePackageRequestDTO letterDTO, String userId);
-    PackageModel getPackageById(String userId, Long trackingNumber);
-    List<PackageModel> getAllPackages(String userId);
-    void UpdatePackage(UpdatePackageRequestDTO letterDTO, String userId, Long trackingNumber);
-    void deletePackage(String userId, Long trackingNumber);
+    PackageModel createPackage(CreatePackageRequestDTO letterDTO, Long userId);
+    PackageModel getPackageById(Long userId, Long trackingNumber);
+    List<PackageModel> getAllPackages(Long userId);
+    void UpdatePackage(UpdatePackageRequestDTO letterDTO, Long userId, Long trackingNumber);
+    void deletePackage(Long userId, Long trackingNumber);
 }

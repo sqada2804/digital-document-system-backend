@@ -25,5 +25,5 @@ public class PackageModel {
 
     private String receiverEmail;
 
-    private String userId;
+    private Long userId;
 }

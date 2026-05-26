@@ -22,14 +22,14 @@ public class PackageService implements IPackageService {
     }
 
     @Override
-    public PackageModel createPackage(CreatePackageRequestDTO packageDTO, String userId) {
+    public PackageModel createPackage(CreatePackageRequestDTO packageDTO, Long userId) {
         return Optional.of(packageDTO)
                 .map(packages -> mapToEntity(packages, userId))
                 .map(packageRepository::save)
-                .orElseThrow(() -> new UnauthorizedException("Unauthorized to create a package"));
+                .orElseThrow(() -> new RuntimeException("Error creating the package"));
     }
 
-    private PackageModel mapToEntity(CreatePackageRequestDTO packagesDTO, String userId) {
+    private PackageModel mapToEntity(CreatePackageRequestDTO packagesDTO, Long userId) {
         return PackageModel.builder().address(packagesDTO.getAddress())
                 .content(packagesDTO.getContent())
                 .weight(packagesDTO.getWeight())
@@ -39,23 +39,23 @@ public class PackageService implements IPackageService {
     }
 
     @Override
-    public PackageModel getPackageById(String userId, Long trackingNumber) {
-        return Optional.of(userId)
-                .flatMap(userId1 -> packageRepository.findPackageByUserIdAndTrackingNumber(userId1, trackingNumber))
-                .orElseThrow(() -> new RuntimeException("Error finding package by id"));
+    public PackageModel getPackageById(Long userId, Long trackingNumber) {
+        return packageRepository.findPackageByUserIdAndTrackingNumber(userId, trackingNumber)
+                .orElseThrow(() -> new NotFoundException("Package wasn't found "));
     }
 
     @Override
-    public List<PackageModel> getAllPackages(String userId) {
+    public List<PackageModel> getAllPackages(Long userId) {
         return packageRepository.findAllByUserId(userId);
     }
 
     @Override
-    public void UpdatePackage(UpdatePackageRequestDTO letterDTO, String userId, Long trackingNumber) {
+    public void UpdatePackage(UpdatePackageRequestDTO packageDTO, Long userId, Long trackingNumber) {
         packageRepository.findPackageByUserIdAndTrackingNumber(userId, trackingNumber)
-                .map(packageExists -> updatePackageFields(packageExists, letterDTO))
-                .map(packageRepository::save)
-                .orElseThrow(() -> new NotFoundException("Package wasn't found to update"));
+                .map(existingPackage ->
+                    updatePackageFields(existingPackage, packageDTO)
+                ).map(packageRepository::save)
+                .orElseThrow(() -> new NotFoundException("Package wasn´t found for update"));
     }
 
     private PackageModel updatePackageFields(PackageModel packageExists, UpdatePackageRequestDTO packageDTO) {
@@ -67,7 +67,7 @@ public class PackageService implements IPackageService {
     }
 
     @Override
-    public void deletePackage(String userId, Long trackingNumber) {
+    public void deletePackage(Long userId, Long trackingNumber) {
         packageRepository.findPackageByUserIdAndTrackingNumber(userId, trackingNumber)
                 .ifPresentOrElse(packageRepository::delete, () -> {
                     throw new NotFoundException("Package wasn't found to delete");

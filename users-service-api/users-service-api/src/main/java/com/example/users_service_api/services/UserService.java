@@ -22,9 +22,9 @@ public class UserService implements IUserService{
     @Override
     public void updateUser(UserDTO userDTO, Long userId) {
         userRepository.findById(userId)
-                .map(existingUser -> {
-                    return updateUserFields(existingUser, userDTO);
-                }).map(userRepository::save)
+                .map(existingUser ->
+                    updateUserFields(existingUser, userDTO)
+                ).map(userRepository::save)
                 .orElseThrow(() -> new NotFoundException("User wasn't found for update"));
     }
 
