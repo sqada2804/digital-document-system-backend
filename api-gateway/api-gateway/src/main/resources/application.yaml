@@ -10,20 +10,14 @@ spring:
           uri: http://localhost:8082
           predicates:
             - Path=/v1/user/**
-          filters:
-            - AuthenticationFilter
         - id: letters-route
           uri: http://localhost:8083
           predicates:
             - Path=/v1/letter/**
-          filters:
-            - AuthenticationFilter
         - id: packages-route
           uri: http://localhost:8084
           predicates:
             - Path=/v1/package/**
-          filters:
-            - AuthenticationFilter
   endpoints:
     web:
       exposure:
@@ -36,4 +30,4 @@ spring:
 server:
   port: 8081
 jwt:
-  secret: ${JWT_SECRET}
+  secret: XZJVERVevwMLOofmwemfwVMERINEIMWOEMFWOEFM34T34653e3RTBn2232323ewfeIVNRIRG3FO9i9g34OKMHMKLQP3233j3onfwdEKVWEFMWkwvwew

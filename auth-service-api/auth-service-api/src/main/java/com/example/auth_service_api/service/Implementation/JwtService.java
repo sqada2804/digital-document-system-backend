@@ -23,7 +23,7 @@ public class JwtService implements IJwtService {
 
     @Override
     public TokenResponse generateToken(Long userId) {
-        Date expirationDate = new Date(Long.MAX_VALUE);
+        Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
 
         SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.secretToken));
 

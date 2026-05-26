@@ -20,8 +20,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void updateUser(UserDTO userDTO, String userId) {
-        userRepository.findById(Long.valueOf(userId))
+    public void updateUser(UserDTO userDTO, Long userId) {
+        userRepository.findById(userId)
                 .map(existingUser -> {
                     return updateUserFields(existingUser, userDTO);
                 }).map(userRepository::save)
@@ -29,21 +29,17 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void deleteUser(String userId) {
-        userRepository.findById(Long.valueOf(userId))
+    public void deleteUser(Long userId) {
+        userRepository.findById(userId)
                 .ifPresentOrElse(userRepository::delete, () -> {
                     throw new NotFoundException("User wasn't found to delete");
                 });
     }
 
     @Override
-    public UserModel getUser(String userId) {
-        JwtAuthenticationToken authenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        if(authenticationToken == null){
-            throw new RuntimeException("Auth is null");
-        }
-        return Optional.of(Long.valueOf(userId))
-                .flatMap(userRepository::findByUserId).orElseThrow(() -> new NotFoundException("User wasn't found to show"));
+    public UserModel getUser(Long userId) {
+        return userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException("User wasn't found to show"));
     }
 
     private UserModel updateUserFields(UserModel existingUser, UserDTO userDTO) {

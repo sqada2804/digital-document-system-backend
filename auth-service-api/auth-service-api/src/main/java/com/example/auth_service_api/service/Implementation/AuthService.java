@@ -36,11 +36,10 @@ public class AuthService implements IAuthService {
     @Override
     public TokenResponse loginUser(LoginRequest loginRequest) {
         return Optional.of(loginRequest.getEmail())
-                .map(userRepository::findByEmail)
-                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword()))
-                .map(user -> jwtService.generateToken(user.get().getUserId()))
-                .orElseThrow(() -> new RuntimeException("Error trying to login user"))
-                ;
+                .flatMap(userRepository::findByEmail)
+                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
+                .map(user -> jwtService.generateToken(user.getUserId()))
+                .orElseThrow(() -> new RuntimeException("Error trying to login user"));
     }
 
     private UserModel mapToEntity(UserRequest userRequest) {
