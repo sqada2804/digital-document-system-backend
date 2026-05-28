@@ -26,5 +26,5 @@ public class LetterModel {
 
     private String receiverEmail;
 
-    private String userId;
+    private Long userId;
 }

@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface IPackageRepository extends JpaRepository<PackageModel, Long> {
-    Optional<PackageModel> findPackageByUserIdAndTrackingNumber(@Param("userId")Long userId, @Param("{trackingNumber}")Long trackingNumber);
+    Optional<PackageModel> findPackageByUserIdAndTrackingNumber(@Param("userId")Long userId, @Param("trackingNumber")Long trackingNumber);
     List<PackageModel> findAllByUserId(@Param("userId") Long userId);
 }

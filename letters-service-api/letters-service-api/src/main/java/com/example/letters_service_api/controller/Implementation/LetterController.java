@@ -7,6 +7,7 @@ import com.example.letters_service_api.controller.Interfaces.ILetterController;
 import com.example.letters_service_api.service.Interfaces.ILetterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.List;
 
@@ -20,28 +21,33 @@ public class LetterController implements ILetterController {
     }
 
     @Override
-    public ResponseEntity<LetterModel> createLetter(CreateLetterRequestDTO letterDTO, String userId) {
+    public ResponseEntity<LetterModel> createLetter(CreateLetterRequestDTO letterDTO, Jwt jwt) {
+        Long userId = Long.valueOf(jwt.getSubject());
         return ResponseEntity.ok(letterService.createLetter(letterDTO, userId));
     }
 
     @Override
-    public ResponseEntity<LetterModel> getLetter(String userId, Long trackingNumber) {
+    public ResponseEntity<LetterModel> getLetter(Jwt jwt, Long trackingNumber) {
+        Long userId = Long.valueOf(jwt.getSubject());
         return ResponseEntity.ok(letterService.getLetterById(userId, trackingNumber));
     }
 
     @Override
-    public ResponseEntity<List<LetterModel>> getAllLetters(String userId) {
+    public ResponseEntity<List<LetterModel>> getAllLetters(Jwt jwt) {
+        Long userId = Long.valueOf(jwt.getSubject());
         return ResponseEntity.ok(letterService.getAllLetters(userId));
     }
 
     @Override
-    public ResponseEntity<Void> updateLetter(UpdateLetterRequestDTO letterDTO, String userId, Long trackingNumber) {
+    public ResponseEntity<Void> updateLetter(UpdateLetterRequestDTO letterDTO, Jwt jwt, Long trackingNumber) {
+        Long userId = Long.valueOf(jwt.getSubject());
         letterService.updateLetter(letterDTO, userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteLetter(String userId, Long trackingNumber) {
+    public ResponseEntity<Void> deleteLetter(Jwt jwt, Long trackingNumber) {
+        Long userId = Long.valueOf(jwt.getSubject());
         letterService.deleteLetter(userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }

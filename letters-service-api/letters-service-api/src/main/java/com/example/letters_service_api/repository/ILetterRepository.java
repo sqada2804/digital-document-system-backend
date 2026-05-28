@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ILetterRepository extends JpaRepository<LetterModel, Long> {
-    Optional<LetterModel> findLetterByUserIdAndTrackingNumber(@Param("userId")String userId, @Param("{trackingNumber}")Long trackingNumber);
-    List<LetterModel> findAllByUserId(@Param("userId") String userId);
+    Optional<LetterModel> findLetterByUserIdAndTrackingNumber(@Param("userId")Long userId, @Param("{trackingNumber}")Long trackingNumber);
+    List<LetterModel> findAllByUserId(@Param("userId") Long userId);
 
 }

@@ -18,7 +18,7 @@
         </processorPath>
         <module name="api-gateway" />
       </profile>
-      <profile name="Annotation profile for package-service-api" enabled="true">
+      <profile name="Annotation profile for letters-service-api" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

@@ -22,14 +22,14 @@ public class LetterService implements ILetterService {
     }
 
     @Override
-    public LetterModel createLetter(CreateLetterRequestDTO letterDTO, String userId) {
+    public LetterModel createLetter(CreateLetterRequestDTO letterDTO, Long userId) {
         return Optional.of(letterDTO)
                 .map(letters -> mapToEntity(letters, userId))
                 .map(letterRepository::save)
                 .orElseThrow(() -> new UnauthorizedException("Unauthorized to create a letter"));
     }
 
-    private LetterModel mapToEntity(CreateLetterRequestDTO letterDTO, String userId) {
+    private LetterModel mapToEntity(CreateLetterRequestDTO letterDTO, Long userId) {
         return LetterModel.builder()
                 .address(letterDTO.getAddress())
                 .body(letterDTO.getBody())
@@ -40,19 +40,18 @@ public class LetterService implements ILetterService {
     }
 
     @Override
-    public LetterModel getLetterById(String userId, Long trackingNumber) {
-        return Optional.of(userId)
-                .flatMap(userId1 -> letterRepository.findLetterByUserIdAndTrackingNumber(userId1, trackingNumber))
-                .orElseThrow(() -> new RuntimeException("Error finding letter by id"));
+    public LetterModel getLetterById(Long userId, Long trackingNumber) {
+        return letterRepository.findLetterByUserIdAndTrackingNumber(userId, trackingNumber)
+                .orElseThrow(() ->  new NotFoundException("Letter wasn't found to show"));
     }
 
     @Override
-    public List<LetterModel> getAllLetters(String userId) {
+    public List<LetterModel> getAllLetters(Long userId) {
         return letterRepository.findAllByUserId(userId);
     }
 
     @Override
-    public void updateLetter(UpdateLetterRequestDTO letterDTO, String userId, Long trackingNumber) {
+    public void updateLetter(UpdateLetterRequestDTO letterDTO, Long userId, Long trackingNumber) {
         letterRepository.findLetterByUserIdAndTrackingNumber(userId, trackingNumber)
                 .map(letterExists -> updateLetterFields(letterExists, letterDTO))
                 .map(letterRepository::save)
@@ -68,7 +67,7 @@ public class LetterService implements ILetterService {
     }
 
     @Override
-    public void deleteLetter(String userId, Long trackingNumber) {
+    public void deleteLetter(Long userId, Long trackingNumber) {
         letterRepository.findLetterByUserIdAndTrackingNumber(userId, trackingNumber)
                 .ifPresentOrElse(letterRepository::delete, () -> {
                     throw new NotFoundException("Letter wasnt' found to delete");
