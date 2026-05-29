@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 public class UserController implements IUserController{
 
@@ -18,20 +20,20 @@ public class UserController implements IUserController{
 
     @Override
     public ResponseEntity<UserModel> getUser(Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @Override
     public ResponseEntity<Void> updateUser(UserDTO userDTO, Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         userService.updateUser(userDTO, userId);
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> deleteUser(Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }

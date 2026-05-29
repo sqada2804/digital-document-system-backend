@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class JwtService implements IJwtService {
@@ -22,7 +23,7 @@ public class JwtService implements IJwtService {
     }
 
     @Override
-    public TokenResponse generateToken(Long userId) {
+    public TokenResponse generateToken(UUID userId) {
         Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
 
         SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.secretToken));
@@ -60,9 +61,9 @@ public class JwtService implements IJwtService {
     }
 
     @Override
-    public Integer extractedUserId(String token) {
+    public UUID extractedUserId(String token) {
         try{
-          return Integer.parseInt(getClaims(token).getSubject());
+          return UUID.fromString(getClaims(token).getSubject());
         }catch(Exception e){
             return null;
         }

@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ILetterRepository extends JpaRepository<LetterModel, Long> {
-    Optional<LetterModel> findLetterByUserIdAndTrackingNumber(@Param("userId")Long userId, @Param("{trackingNumber}")Long trackingNumber);
-    List<LetterModel> findAllByUserId(@Param("userId") Long userId);
+public interface ILetterRepository extends JpaRepository<LetterModel, UUID> {
+    Optional<LetterModel> findLetterByUserIdAndTrackingNumber(@Param("userId") UUID userId, @Param("{trackingNumber}")UUID trackingNumber);
+    List<LetterModel> findAllByUserId(@Param("userId") UUID userId);
 
 }

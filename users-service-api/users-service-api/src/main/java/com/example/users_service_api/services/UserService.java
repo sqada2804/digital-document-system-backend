@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService implements IUserService{
@@ -20,7 +21,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void updateUser(UserDTO userDTO, Long userId) {
+    public void updateUser(UserDTO userDTO, UUID userId) {
         userRepository.findById(userId)
                 .map(existingUser ->
                     updateUserFields(existingUser, userDTO)
@@ -29,7 +30,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void deleteUser(UUID userId) {
         userRepository.findById(userId)
                 .ifPresentOrElse(userRepository::delete, () -> {
                     throw new NotFoundException("User wasn't found to delete");
@@ -37,7 +38,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public UserModel getUser(Long userId) {
+    public UserModel getUser(UUID userId) {
         return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException("User wasn't found to show"));
     }

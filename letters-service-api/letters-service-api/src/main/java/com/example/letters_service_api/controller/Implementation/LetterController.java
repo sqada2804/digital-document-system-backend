@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class LetterController implements ILetterController {
@@ -22,32 +23,32 @@ public class LetterController implements ILetterController {
 
     @Override
     public ResponseEntity<LetterModel> createLetter(CreateLetterRequestDTO letterDTO, Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(letterService.createLetter(letterDTO, userId));
     }
 
     @Override
-    public ResponseEntity<LetterModel> getLetter(Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<LetterModel> getLetter(Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(letterService.getLetterById(userId, trackingNumber));
     }
 
     @Override
     public ResponseEntity<List<LetterModel>> getAllLetters(Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(letterService.getAllLetters(userId));
     }
 
     @Override
-    public ResponseEntity<Void> updateLetter(UpdateLetterRequestDTO letterDTO, Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<Void> updateLetter(UpdateLetterRequestDTO letterDTO, Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         letterService.updateLetter(letterDTO, userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteLetter(Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<Void> deleteLetter(Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         letterService.deleteLetter(userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }

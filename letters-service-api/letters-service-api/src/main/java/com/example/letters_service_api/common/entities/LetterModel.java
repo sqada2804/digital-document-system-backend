@@ -4,6 +4,8 @@ import com.example.common_library.entity.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Setter
 @Getter
@@ -14,8 +16,8 @@ import lombok.*;
 @Table(name = "letters")
 public class LetterModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long trackingNumber;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID trackingNumber;
 
     private String address;
 
@@ -26,5 +28,5 @@ public class LetterModel {
 
     private String receiverEmail;
 
-    private Long userId;
+    private UUID userId;
 }

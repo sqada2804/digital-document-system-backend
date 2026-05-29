@@ -5,11 +5,12 @@ import com.example.letters_service_api.common.dtos.UpdateLetterRequestDTO;
 import com.example.letters_service_api.common.entities.LetterModel;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ILetterService {
-    LetterModel createLetter(CreateLetterRequestDTO packageDTO, Long userId);
-    LetterModel getLetterById(Long userId, Long trackingNumber);
-    List<LetterModel> getAllLetters(Long userId);
-    void updateLetter(UpdateLetterRequestDTO packageDTO, Long userId, Long trackingNumber);
-    void deleteLetter(Long userId, Long trackingNumber);
+    LetterModel createLetter(CreateLetterRequestDTO packageDTO, UUID userId);
+    LetterModel getLetterById(UUID userId, UUID trackingNumber);
+    List<LetterModel> getAllLetters(UUID userId);
+    void updateLetter(UpdateLetterRequestDTO packageDTO, UUID userId, UUID trackingNumber);
+    void deleteLetter(UUID userId, UUID trackingNumber);
 }

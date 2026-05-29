@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping(ApiPathConstants.V1_ROUTE + ApiPathConstants.PACKAGE_ROUTE)
 public interface IPackageController {
@@ -17,15 +18,15 @@ public interface IPackageController {
     ResponseEntity<PackageModel> createPackage(@RequestBody CreatePackageRequestDTO packageDTO, @AuthenticationPrincipal Jwt jwt);
 
     @GetMapping(value = "/{trackingNumber}")
-    ResponseEntity<PackageModel> getPackage(@AuthenticationPrincipal Jwt jwt, @PathVariable Long trackingNumber);
+    ResponseEntity<PackageModel> getPackage(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID trackingNumber);
 
     @GetMapping()
     ResponseEntity<List<PackageModel>>getAllPackages(@AuthenticationPrincipal Jwt jwt);
 
     @PutMapping(value = "/{trackingNumber}")
-    ResponseEntity<Void> updatePackage(@RequestBody UpdatePackageRequestDTO packageDTO, @AuthenticationPrincipal Jwt jwt, @PathVariable Long trackingNumber);
+    ResponseEntity<Void> updatePackage(@RequestBody UpdatePackageRequestDTO packageDTO, @AuthenticationPrincipal Jwt jwt, @PathVariable UUID trackingNumber);
 
     @DeleteMapping(value = "/{trackingNumber}")
-    ResponseEntity<Void> deletePackage(@AuthenticationPrincipal Jwt jwt, @PathVariable Long trackingNumber);
+    ResponseEntity<Void> deletePackage(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID trackingNumber);
 
 }

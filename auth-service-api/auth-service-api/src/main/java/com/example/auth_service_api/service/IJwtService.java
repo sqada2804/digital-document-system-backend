@@ -3,9 +3,11 @@ package com.example.auth_service_api.service;
 import com.example.auth_service_api.dtos.TokenResponse;
 import io.jsonwebtoken.Claims;
 
+import java.util.UUID;
+
 public interface IJwtService {
-    TokenResponse generateToken(Long userId);
+    TokenResponse generateToken(UUID userId);
     Claims getClaims(String token);
     boolean isExpired(String token);
-    Integer extractedUserId(String token);
+    UUID extractedUserId(String token);
 }

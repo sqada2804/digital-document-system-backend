@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class PackageController implements IPackageController {
@@ -23,32 +24,32 @@ public class PackageController implements IPackageController {
 
     @Override
     public ResponseEntity<PackageModel> createPackage(CreatePackageRequestDTO packageDTO, Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(packageService.createPackage(packageDTO, userId));
     }
 
     @Override
-    public ResponseEntity<PackageModel> getPackage(Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<PackageModel> getPackage(Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(packageService.getPackageById(userId, trackingNumber));
     }
 
     @Override
     public ResponseEntity<List<PackageModel>> getAllPackages(Jwt jwt) {
-        Long userId = Long.valueOf(jwt.getSubject());
+        UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(packageService.getAllPackages(userId));
     }
 
     @Override
-    public ResponseEntity<Void> updatePackage(UpdatePackageRequestDTO packageDTO, Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<Void> updatePackage(UpdatePackageRequestDTO packageDTO, Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         packageService.UpdatePackage(packageDTO, userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> deletePackage(Jwt jwt, Long trackingNumber) {
-        Long userId = Long.valueOf(jwt.getSubject());
+    public ResponseEntity<Void> deletePackage(Jwt jwt, UUID trackingNumber) {
+        UUID userId = UUID.fromString(jwt.getSubject());
         packageService.deletePackage(userId, trackingNumber);
         return ResponseEntity.noContent().build();
     }
