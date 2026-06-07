@@ -1,5 +1,6 @@
 package com.example.package_service_api.service.Implementation;
 
+import com.example.package_service_api.common.constants.TopicConstants;
 import com.example.package_service_api.common.dtos.CreatePackageRequestDTO;
 import com.example.package_service_api.common.dtos.UpdatePackageRequestDTO;
 import com.example.package_service_api.common.entities.PackageModel;
@@ -7,6 +8,7 @@ import com.example.package_service_api.common.exceptions.NotFoundException;
 import com.example.package_service_api.common.exceptions.UnauthorizedException;
 import com.example.package_service_api.repository.IPackageRepository;
 import com.example.package_service_api.service.Interfaces.IPackageService;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +19,11 @@ import java.util.UUID;
 public class PackageService implements IPackageService {
 
     private final IPackageRepository packageRepository;
+    private final StreamBridge streamBridge;
 
-    public PackageService(IPackageRepository packageRepository) {
+    public PackageService(IPackageRepository packageRepository, StreamBridge streamBridge) {
         this.packageRepository = packageRepository;
+        this.streamBridge = streamBridge;
     }
 
     @Override
@@ -27,8 +31,16 @@ public class PackageService implements IPackageService {
         return Optional.of(packageDTO)
                 .map(packages -> mapToEntity(packages, userId))
                 .map(packageRepository::save)
+                .map(this::sendPackageEvent)
                 .orElseThrow(() -> new RuntimeException("Error creating the package"));
     }
+
+    private PackageModel sendPackageEvent(PackageModel packageModel) {
+      Optional.of(packageModel)
+              .map(givenPackage -> this.streamBridge.send(TopicConstants.PACKAGE_CREATED_TOPIC, packageModel))
+              .map(bool -> packageModel);
+      return packageModel;
+    };
 
     private PackageModel mapToEntity(CreatePackageRequestDTO packagesDTO, UUID userId) {
         return PackageModel.builder().address(packagesDTO.getAddress())

@@ -21,6 +21,10 @@ spring:
           destination: event.package-created
           binder: kafka_default
           useNativeDecoding: true
+        packageCreatedBinding-out-0:
+          destination: event.package-eligible
+          binder: kafka_default
+          useNativeDecoding: true
       binders:
         kafka_default:
           type: kafka
