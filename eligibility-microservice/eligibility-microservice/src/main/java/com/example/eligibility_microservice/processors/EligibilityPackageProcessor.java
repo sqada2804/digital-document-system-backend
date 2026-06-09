@@ -1,8 +1,8 @@
 package com.example.eligibility_microservice.processors;
 
-import com.example.eligibility_microservice.common.PackageCreatedEvent;
-import com.example.eligibility_microservice.common.PackageEligibleEvent;
-import com.example.eligibility_microservice.services.IPackageEligibleService;
+import com.example.eligibility_microservice.common.PackageEvents.PackageCreatedEvent;
+import com.example.eligibility_microservice.common.PackageEvents.PackageEligibleEvent;
+import com.example.eligibility_microservice.services.PackageEligibleService.IPackageEligibleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;

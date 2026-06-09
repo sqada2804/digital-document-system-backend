@@ -1,7 +1,7 @@
-package com.example.eligibility_microservice.services;
+package com.example.eligibility_microservice.services.PackageEligibleService;
 
-import com.example.eligibility_microservice.common.PackageCreatedEvent;
-import com.example.eligibility_microservice.common.PackageEligibleEvent;
+import com.example.eligibility_microservice.common.PackageEvents.PackageCreatedEvent;
+import com.example.eligibility_microservice.common.PackageEvents.PackageEligibleEvent;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 

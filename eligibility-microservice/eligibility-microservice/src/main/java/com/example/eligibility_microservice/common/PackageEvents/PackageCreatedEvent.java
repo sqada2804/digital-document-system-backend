@@ -1,4 +1,4 @@
-package com.example.eligibility_microservice.common;
+package com.example.eligibility_microservice.common.PackageEvents;
 
 import lombok.*;
 

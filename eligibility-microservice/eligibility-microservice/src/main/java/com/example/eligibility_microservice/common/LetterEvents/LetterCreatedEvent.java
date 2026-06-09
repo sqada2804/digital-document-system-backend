@@ -1,4 +1,4 @@
-package com.example.eligibility_microservice.common;
+package com.example.eligibility_microservice.common.LetterEvents;
 
 import lombok.*;
 
@@ -6,22 +6,20 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-@Builder
-public class PackageEligibleEvent {
+public class LetterCreatedEvent {
+
     private UUID trackingNumber;
 
     private String address;
 
-    private String content;
+    private String subject;
 
-    private Double weight;
+    private String body;
 
     private String receiverEmail;
 
     private UUID userId;
-
-    private Boolean isEligible;
 }

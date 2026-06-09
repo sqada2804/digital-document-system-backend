@@ -32,7 +32,7 @@ public class PackageService implements IPackageService {
                 .map(packages -> mapToEntity(packages, userId))
                 .map(packageRepository::save)
                 .map(this::sendPackageEvent)
-                .orElseThrow(() -> new RuntimeException("Error creating the package"));
+                .orElseThrow(() -> new RuntimeException("Error creating package"));
     }
 
     private PackageModel sendPackageEvent(PackageModel packageModel) {
