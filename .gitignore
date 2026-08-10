@@ -1,0 +1,16 @@
+### IntelliJ ###
+.idea/
+*.iml
+
+### Environment ###
+.env
+
+### Docker persisted data ###
+data/
+
+### Java ###
+target/
+*.class
+
+### Logs ###
+*.log

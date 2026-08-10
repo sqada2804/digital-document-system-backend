@@ -6,12 +6,12 @@ spring:
       repositories:
         enabled: true
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/digital-document-delivery-system
-    username: postgres
-    password: $eQuE$aDa4002s
+    url: ${DB_R2DBC_URL:r2dbc:postgresql://localhost:5432/digital_document_delivery_system}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
   cloud:
     function:
-      definition: packageCreatedBinding
+      definition: packageCreatedBinding;letterCreatedBinding
       scan:
         enabled: false
     stream:
@@ -57,5 +57,5 @@ spring:
                       minPartitionCount: 3
                       replicationFactor: 1
                       serdeError: logAndContinue
-                      brokers: localhost:9092
+                      brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 

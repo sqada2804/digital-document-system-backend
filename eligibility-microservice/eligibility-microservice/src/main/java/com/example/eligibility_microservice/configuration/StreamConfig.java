@@ -14,13 +14,16 @@ import java.util.function.Function;
 
 @Configuration
 public class StreamConfig {
+
     @Bean
-    public Function<Flux<PackageCreatedEvent>, Flux<PackageEligibleEvent>> packageCreatedBinding(final EligibilityPackageProcessor processor){
+    public Function<Flux<PackageCreatedEvent>, Flux<PackageEligibleEvent>> packageCreatedBinding(
+            final EligibilityPackageProcessor processor) {
         return processor::process;
     }
 
     @Bean
-    public Function<Flux<LetterCreatedEvent>, Flux<LetterEligibleEvent>> letterCreatedBinding(final EligibilityLetterProcessor processor){
+    public Function<Flux<LetterCreatedEvent>, Flux<LetterEligibleEvent>> letterCreatedBinding(
+            final EligibilityLetterProcessor processor) {
         return processor::process;
     }
 }

@@ -2,9 +2,9 @@ server:
   port: 8082
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/digital-document-delivery-system
-    username: postgres
-    password: $eQuE$aDa4002
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/digital-document-delivery-system}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
