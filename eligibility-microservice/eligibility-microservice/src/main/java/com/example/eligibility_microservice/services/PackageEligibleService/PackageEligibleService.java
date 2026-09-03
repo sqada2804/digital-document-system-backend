@@ -14,6 +14,11 @@ public class PackageEligibleService implements IPackageEligibleService{
                 .flatMap(this::checkIsEligible)
                 .map(givenCreated -> PackageEligibleEvent.builder()
                         .trackingNumber(givenCreated.getTrackingNumber())
+                        .address(givenCreated.getAddress())
+                        .content(givenCreated.getContent())
+                        .weight(givenCreated.getWeight())
+                        .receiverEmail(givenCreated.getReceiverEmail())
+                        .userId(givenCreated.getUserId())
                         .isEligible(true)
                         .build());
     }

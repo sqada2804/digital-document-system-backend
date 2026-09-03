@@ -46,8 +46,10 @@ spring:
                         serdeError: logAndContinue
                         broker: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 mailgun:
-  api-key: {MAILGUN_API_KEY}
-  url: {MAILGUN_URL}
+  api-key: ${MAILGUN_API_KEY}
+  base-url: ${MAILGUN_BASE_URL:https://api.mailgun.net}
+  domain: ${MAILGUN_DOMAIN}
+  from: ${MAILGUN_FROM}
 s3:
   bucket: bucket-prueba
   endpoint: http://localhost:4566

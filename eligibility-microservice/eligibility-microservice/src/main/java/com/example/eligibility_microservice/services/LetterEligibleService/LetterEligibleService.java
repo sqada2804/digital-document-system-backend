@@ -14,16 +14,21 @@ public class LetterEligibleService implements ILetterEligibleService{
                 .flatMap(this::checkIsEligible)
                 .map(givenCreated -> LetterEligibleEvent.builder()
                         .trackingNumber(givenCreated.getTrackingNumber())
+                        .address(givenCreated.getAddress())
+                        .subject(givenCreated.getSubject())
+                        .body(givenCreated.getBody())
+                        .receiverEmail(givenCreated.getReceiverEmail())
+                        .userId(givenCreated.getUserId())
                         .IsEligible(true)
                         .build());
     }
 
     private Mono<LetterCreatedEvent> checkIsEligible(LetterCreatedEvent letterCreatedEvent) {
         return Mono.just(letterCreatedEvent)
-                .filter(given -> given.getAddress() != null && given.getAddress().isBlank())
-                .filter(given -> given.getReceiverEmail() != null && given.getReceiverEmail().isBlank())
-                .filter(given -> given.getBody() != null && given.getBody().isBlank())
-                .filter(given -> given.getSubject() != null && given.getSubject().isBlank())
+                .filter(given -> given.getAddress() != null && !given.getAddress().isBlank())
+                .filter(given -> given.getReceiverEmail() != null && !given.getReceiverEmail().isBlank())
+                .filter(given -> given.getBody() != null && !given.getBody().isBlank())
+                .filter(given -> given.getSubject() != null && !given.getSubject().isBlank())
                 .filter(given -> given.getTrackingNumber() != null)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Letter does not meet eligibility requirements")));
     }
