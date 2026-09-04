@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "s3")
 public class S3Properties {
+    private String endpoint;
+    private String region;
     private String accessKey;
     private String secretKey;
     private String bucket;
-    private String zone;
 }

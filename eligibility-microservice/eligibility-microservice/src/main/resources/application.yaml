@@ -6,7 +6,7 @@ spring:
       repositories:
         enabled: true
   r2dbc:
-    url: ${DB_R2DBC_URL:r2dbc:postgresql://localhost:5432/digital_document_delivery_system}
+    url: ${DB_R2DBC_URL:r2dbc:postgresql://localhost:5432/digital-document-delivery-system}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD}
   cloud:

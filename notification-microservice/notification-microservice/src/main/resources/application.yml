@@ -1,57 +1,68 @@
 server:
   port: 8086
+
 spring:
-  data:
-    r2dbc:
-      url: ${DB_URL:jdbc:postgresql://localhost:5432/digital-document-delivery-system}
-      username: ${DB_USERNAME:postgres}
-      password: ${DB_PASSWORD}
-    cloud:
-      function:
-        definition: notificationBinding
-      stream:
-        default-binder: kafka_default
-        bindings:
-          notificationBinding-in-0:
-            destination: new-notification-event
-            binder: kafka_default
-            useNativeDecoding: true
-          notificationBinding-out-0:
-            destination: notification-processed
-            binder: kafka_default
-            useNativeDecoding: true
-        binders:
-          kafka_default:
-            type: kafka
-            environment:
-              spring:
-                cloud:
-                  stream:
-                    kafka:
-                      default:
-                        consumer:
-                          configuration:
-                            session.timeout.ms: 10000
-                            max.poll.records: 10
-                        producer:
-                          compressionType: gzip
-                          configuration:
-                            max.request.size: 10000
-                      binder:
-                        autoAddPartitions: true
-                        autoCreateTopics: true
-                        requiredAcks: -1
-                        minPartitionCount: 3
-                        replicationFactor: 1
-                        serdeError: logAndContinue
-                        broker: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  r2dbc:
+    url: ${DB_R2DBC_URL:r2dbc:postgresql://localhost:5432/digital-document-delivery-system}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+
+  cloud:
+    function:
+      definition: letterEligibleBinding;packageEligibleBinding
+
+    stream:
+      default-binder: kafka_default
+
+      bindings:
+        letterEligibleBinding-in-0:
+          destination: event.letter-eligible
+          binder: kafka_default
+          group: notification-service
+          useNativeDecoding: true
+
+        packageEligibleBinding-in-0:
+          destination: event.package-eligible
+          binder: kafka_default
+          group: notification-service
+          useNativeDecoding: true
+
+      binders:
+        kafka_default:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+                      autoAddPartitions: true
+                      autoCreateTopics: true
+                      requiredAcks: -1
+                      minPartitionCount: 3
+                      replicationFactor: 1
+                      serdeError: logAndContinue
+
+                    default:
+                      consumer:
+                        configuration:
+                          session.timeout.ms: 10000
+                          max.poll.records: 10
+                      producer:
+                        compressionType: gzip
+                        configuration:
+                          max.request.size: 10000
+
 mailgun:
   api-key: ${MAILGUN_API_KEY}
   base-url: ${MAILGUN_BASE_URL:https://api.mailgun.net}
   domain: ${MAILGUN_DOMAIN}
   from: ${MAILGUN_FROM}
+
 s3:
-  bucket: bucket-prueba
-  endpoint: http://localhost:4566
-  accessKey: test
-  secretKey: test
+  endpoint: ${S3_ENDPOINT:http://localhost:4566}
+  region: ${S3_REGION:us-east-1}
+  access-key: ${S3_ACCESS_KEY:test}
+  secret-key: ${S3_SECRET_KEY:test}
+  bucket: ${S3_BUCKET:digital-document-system}

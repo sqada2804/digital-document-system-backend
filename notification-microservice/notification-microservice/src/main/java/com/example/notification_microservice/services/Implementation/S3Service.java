@@ -8,6 +8,7 @@ import com.example.notification_microservice.common.properties.S3Properties;
 import com.example.notification_microservice.services.Interface.IS3Service;
 import com.example.notification_microservice.utils.FileUtilTools;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class S3Service implements IS3Service {
     
     private final AmazonS3 amazonS3;
@@ -60,7 +62,6 @@ public class S3Service implements IS3Service {
                 s3Properties.getBucket(), fileKey, file.getInputStream(), objectMetadata
         );
     }
-
 
 
     @Override

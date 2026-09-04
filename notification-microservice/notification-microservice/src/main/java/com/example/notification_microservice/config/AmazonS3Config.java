@@ -21,12 +21,23 @@ public class AmazonS3Config {
 
     @Bean
     public AmazonS3 s3Client(){
-        log.info("S3 Client initialized with bucket: {} in {}", s3Properties.getBucket(), s3Properties.getZone());
+        log.info("S3 Client initialized with bucket: {} in {}", s3Properties.getBucket(), s3Properties.getRegion());
         return AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey())))
                 .withEndpointConfiguration(
-                        new AwsClientBuilder.EndpointConfiguration("http://127.0.0.1:4566" + s3Properties.getBucket(), s3Properties.getZone())
+                        new AwsClientBuilder.EndpointConfiguration(
+                                s3Properties.getEndpoint(),
+                                s3Properties.getRegion()
+                        )
                 )
+                .withCredentials(
+                        new AWSStaticCredentialsProvider(
+                                new BasicAWSCredentials(
+                                        s3Properties.getAccessKey(),
+                                        s3Properties.getSecretKey()
+                                )
+                        )
+                )
+                .withPathStyleAccessEnabled(true)
                 .build();
     }
 }
