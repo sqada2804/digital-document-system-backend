@@ -19,7 +19,7 @@ spring:
           predicates:
             - Path=/v1/package/**
         - id: notification-route
-          uri: http://localhost:8085
+          uri: http://localhost:8086
           predicates:
             - Path=/v1/notification/**
   endpoints:
