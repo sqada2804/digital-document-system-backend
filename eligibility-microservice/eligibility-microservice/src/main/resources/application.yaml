@@ -6,9 +6,9 @@ spring:
       repositories:
         enabled: true
   r2dbc:
-    url: ${DB_R2DBC_URL:r2dbc:postgresql://localhost:5432/digital-document-delivery-system}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD}
+    url: ${DB_R2DBC_URL:r2dbc:postgresql://127.0.0.1:5432/digital-document-delivery-system?sslmode=disable}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD}
   cloud:
     function:
       definition: packageCreatedBinding;letterCreatedBinding

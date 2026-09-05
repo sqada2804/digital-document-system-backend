@@ -5,8 +5,8 @@ spring:
     name: package-service-api
   datasource:
     url: ${DB_URL:jdbc:postgresql://127.0.0.1:5432/digital-document-delivery-system?sslmode=disable}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -44,7 +44,7 @@ spring:
                       minPartitionCount: 3
                       replicationFactor: 1
                       serdeError: logAndContinue
-                      broker: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+                      brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 springdoc:
   api-docs:
     path: /v1/api-docs

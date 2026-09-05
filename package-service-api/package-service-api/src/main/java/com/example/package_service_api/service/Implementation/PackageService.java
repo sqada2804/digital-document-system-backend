@@ -5,7 +5,6 @@ import com.example.package_service_api.common.dtos.CreatePackageRequestDTO;
 import com.example.package_service_api.common.dtos.UpdatePackageRequestDTO;
 import com.example.package_service_api.common.entities.PackageModel;
 import com.example.package_service_api.common.exceptions.NotFoundException;
-import com.example.package_service_api.common.exceptions.UnauthorizedException;
 import com.example.package_service_api.repository.IPackageRepository;
 import com.example.package_service_api.service.Interfaces.IPackageService;
 import org.springframework.cloud.stream.function.StreamBridge;

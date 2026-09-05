@@ -1,6 +1,5 @@
 package com.example.package_service_api.common.entities;
 
-import com.example.common_library.entity.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
