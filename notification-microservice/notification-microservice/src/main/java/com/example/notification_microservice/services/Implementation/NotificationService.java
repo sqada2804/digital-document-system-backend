@@ -36,6 +36,9 @@ public class NotificationService implements INotificationService {
         context.setVariable("trackingNumber", event.getTrackingNumber());
         String html = templateEngine.process("package-notification", context);
 
-        mailgunService.sendEmail(event.getReceiverEmail(), "Package notification", html).subscribe();
+        mailgunService.sendEmail(event.getReceiverEmail(), "Package notification", html).subscribe(
+                unused -> {},
+                error -> System.err.println("Error sending email: " + error.getMessage())
+        );
     }
 }

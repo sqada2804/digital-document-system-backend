@@ -3,7 +3,7 @@ server:
 
 spring:
   r2dbc:
-    url: ${DB_R2DBC_URL:r2dbc:postgresql://127.0.0.1:5432/digital-document-delivery-system?sslmode=disable}
+    url: ${DB_R2DBC_URL:r2dbc:postgresql://127.0.0.1:5433/digital-document-delivery-system?sslmode=disable}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD}
 
