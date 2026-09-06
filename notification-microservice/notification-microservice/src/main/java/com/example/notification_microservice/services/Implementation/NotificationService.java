@@ -12,10 +12,12 @@ public class NotificationService implements INotificationService {
 
     private final TemplateEngine templateEngine;
     private final MailgunService mailgunService;
+    private final S3Service s3Service;
 
-    public NotificationService(TemplateEngine templateEngine, MailgunService mailgunService) {
+    public NotificationService(TemplateEngine templateEngine, MailgunService mailgunService, S3Service s3Service) {
         this.templateEngine = templateEngine;
         this.mailgunService = mailgunService;
+        this.s3Service = s3Service;
     }
 
     @Override
@@ -34,7 +36,11 @@ public class NotificationService implements INotificationService {
         Context context = new Context();
 
         context.setVariable("trackingNumber", event.getTrackingNumber());
+        context.setVariable("content", event.getContent());
         String html = templateEngine.process("package-notification", context);
+        String s3key = s3Service.uploadHtml(event.getTrackingNumber().toString(), html);
+
+        System.out.println("Template stored in S3: " + s3key);
 
         mailgunService.sendEmail(event.getReceiverEmail(), "Package notification", html).subscribe(
                 unused -> {},

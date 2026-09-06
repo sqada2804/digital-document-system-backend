@@ -11,8 +11,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.rmi.RemoteException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -70,6 +73,26 @@ public class S3Service implements IS3Service {
                 .map(this::getObjectS3)
                 .map(s3object -> getFileFromInputStream(filename, s3object))
                 .orElseThrow(() -> new RuntimeException("Error getting object s3"));
+    }
+
+    @Override
+    public String uploadHtml(String filename, String html) {
+        byte[] content = html.getBytes(StandardCharsets.UTF_8);
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType("text/html");
+        metadata.setContentLength(content.length);
+
+        String fileKey = filename + ".html";
+
+        try(ByteArrayInputStream inputStream = new ByteArrayInputStream(content)){
+            amazonS3.putObject(
+                    new PutObjectRequest(s3Properties.getBucket(), fileKey, inputStream, metadata)
+            );
+            return fileKey;
+        } catch (IOException e){
+            throw new RuntimeException("Error uploading HTML to S3", e);
+        }
     }
 
     private File getFileFromInputStream(String filename, S3Object s3object) {
